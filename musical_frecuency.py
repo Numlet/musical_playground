@@ -27,12 +27,12 @@ frecuencies_flat=frecuencies.flatten()
 notes_name=['DO','DO#','RE','RE#','MI','FA','FA#','SOL','SOL#','LA','LA#','SI']
 
 def find_note(freq):
-    print freq
+    print (freq)
     of=np.argmin(np.abs(frecuencies-freq))/frecuencies.shape[-1]
     nf=np.argmin(np.abs(frecuencies-freq))%frecuencies.shape[-1]
-    print 'octave:', of
-    print 'note:', nf, notes_name[nf]
-    print frecuencies[of,nf]
+    print ('octave:', of)
+    print ('note:', nf, notes_name[nf])
+    print (frecuencies[of,nf])
 
 
 def find_nearest_vector_index(array, value):
@@ -51,7 +51,7 @@ myrecording = sd.rec(duration * fs, samplerate=fs, channels=1)
 time.sleep(duration)
 
 e=time.time()
-print e-s
+print (e-s)
 
 #%%
 sd.play(myrecording,fs)
@@ -72,16 +72,16 @@ while True:
         sound_array=np.copy(myrecording[:])
     if myrecording.ndim==2:
         sound_array=np.copy(myrecording[:,0])
-    
+
 #    fig=plt.figure()
 #    bx=plt.subplot(312)
 #    cx=plt.subplot(313)
-    
+
 #    ax=plt.subplot(311)
-    
+
 #    ax.plot(sound_array)
     transform=np.fft.fft(sound_array)
-    
+
     freqs = np.fft.fftfreq(transform.shape[-1])*fs
     freqs=freqs[:len(freqs)/2]
     transform=transform[:len(transform)/2]
@@ -93,9 +93,9 @@ while True:
     freq_detected=np.zeros(4)
     for i in range(notes):
         freq_detected[i]=np.abs(freqs[np.argmax(transform_abs)])
-        
+
     freq=np.abs(freqs[np.argmax(transform_abs)])
-        
+
     find_note(freq)
 
 #%%
@@ -130,7 +130,7 @@ transform_abs=np.sqrt(transform.real**2+transform.imag**2)
 #freq_detected=np.zeros(4)
 #for i in range(notes):
 #    freq_detected[i]=np.abs(freqs[np.argmax(transform_abs)])
-    
+
 transform_abs[freqs<frecuencies[0,-1]]=0
 freq=np.abs(freqs[np.argmax(transform_abs)])
 
@@ -150,7 +150,7 @@ cx.set_xscale('log')
 #cx.plot(freqs,transform_abs,'ro')
 
 sd.play(myrecording,fs)
-print 'second note'
+print ('second note')
 find_note(freq)
 
 #plt.figure()
@@ -162,7 +162,7 @@ grid_freqs=np.zeros((len(sub_arrays),len(sub_arrays[0])/2))
 i=0
 for array in sub_arrays:
     sub_transform=np.fft.fft(array)
-    
+
 
 
     sub_freqs = np.fft.fftfreq(sub_transform.shape[-1])*fs
@@ -171,11 +171,11 @@ for array in sub_arrays:
     sub_transform_abs=np.sqrt(sub_transform.real**2+sub_transform.imag**2)
     sub_transform_abs[sub_freqs<frecuencies[0,-1]]=0
     sub_transform_abs[sub_freqs<200]=0
-    
+
     sub_freq=np.abs(sub_freqs[np.argmax(sub_transform_abs)])
-    
+
     find_note(sub_freq)
-    
+
     grid_freqs[i,:]=sub_transform_abs[:]
     i=i+1
 
@@ -197,21 +197,7 @@ plt.colorbar()
 #plt.colorbar()
 #%%
 for i in range(grid_freqs.shape[0]):
-    print i
+    print (i)
     plt.plot(sub_freqs,grid_freqs[4,:])
     plt.xscale('log')
 #    plt.yscale('log')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
