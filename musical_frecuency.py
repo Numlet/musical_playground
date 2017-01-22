@@ -8,7 +8,7 @@ This is a temporary script file.
 import sounddevice as sd
 import numpy as np
 import matplotlib.pyplot as plt
-
+#test atom push
 def frequency(o,n):
     return 440*2**((o-4)+(n-10)/12.)
 
